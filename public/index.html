@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web socket by HAMIIIID</title>
+</head>
+<body>
+        <h1>Click to send message</h1>
+        <button onclick="sendMessage()">Send message to the server</button>
+        <button onclick="closeConnection()">Disconnect</button>
+        <button onclick="connect()">Connect</button>
+</body>
+    <script>
+        let socket = null;
+        
+        // connected
+        const connect = () => {
+            socket = new WebSocket("ws://localhost:3000/");
+            socket.onopen = function(event) {
+                console.log("Connection established");
+            };
+        };
+
+            // send data
+        const sendMessage = () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send("Hello from client!");
+            } else {
+                console.log("Not connected to the server");
+            }
+        };
+
+
+        // disconnect
+        const closeConnection = () => {
+            if (socket) {
+                socket.close(1000, "Bye!");
+                socket = null;
+            };
+        };
+    </script>
+</html>
